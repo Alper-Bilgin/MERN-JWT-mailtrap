@@ -1,7 +1,7 @@
 import { User } from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
-import { sendVerificationEmail } from "../mailtrap/emails.js";
+import { sendVerificationEmail, sendWelcomeEmail } from "../mailtrap/emails.js";
 
 export const signup = async (req, res) => {
   const { email, password, name } = req.body;
@@ -46,6 +46,37 @@ export const signup = async (req, res) => {
   } catch (error) {
     // Hata oluşursa hata mesajı ile birlikte yanıt dönülür
     res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+export const verifyEmail = async (req, res) => {
+  const { code } = req.body;
+  try {
+    // Veritabanında, doğrulama kodu eşleşen ve süresi geçmemiş bir kullanıcı ararız
+    const user = await User.findOne({
+      verificationToken: code, // Kullanıcının doğrulama kodu
+      verificationTokenExpiresAt: { $gt: Date.now() }, // Kodun süresi geçmemiş olmalı
+    });
+    // Eğer kullanıcı bulunamazsa (kod yanlış veya süresi dolmuşsa) hata döneriz
+    if (!user) {
+      return res.status(400).json({ success: false, message: "Geçersiz veya süresi dolmuş doğrulama kodu" });
+    }
+    user.isVerified = true; // Kullanıcı bulunduysa, hesabı doğrulanmış olarak işaretleriz
+    user.isVerificationToken = undefined; // Kullanıcının doğrulama kodunu sileriz (artık gerek yok)
+    user.verificationTokenExpiresAt = undefined; // Doğrulama kodunun süresini de sileriz
+    await user.save(); // Kullanıcıyı güncellenmiş haliyle kaydederiz
+    await sendWelcomeEmail(user.email, user.name); // Kullanıcıya hoş geldin e-postası göndeririz
+    res.status(200).json({
+      success: true,
+      message: "Email hesabı doğrulandı",
+      user: {
+        ...user._doc,
+        password: undefined,
+      },
+    });
+  } catch (error) {
+    console.log("Doğrulama maili hatası ", error);
+    res.status(500).json({ success: false, message: "Doğrulama Maili hatası" });
   }
 };
 

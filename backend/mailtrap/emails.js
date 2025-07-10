@@ -27,3 +27,25 @@ export const sendVerificationEmail = async (email, verificationToken) => {
     throw new Error("Doğrulama e-postası gönderimi hatası:", error);
   }
 };
+
+export const sendWelcomeEmail = async (email, name) => {
+  const recipient = [{ email }];
+
+  try {
+    const response = await mailtrapClient.send({
+      from: sender,
+      to: recipient,
+      template_uuid: "c4524148-88f7-45c3-83d5-03392d2668d0",
+      template_variables: {
+        name: name,
+        company_info_name: "Alper Bilgin",
+      },
+    });
+
+    console.log("Hoş geldiniz e-postası başarıyla gönderildi", response);
+  } catch (error) {
+    console.error(`Hoş geldiniz e-postası gönderilirken hata oluştu`, error);
+
+    throw new Error(`Hoş geldiniz e-postası gönderilirken hata oluştu: ${error}`);
+  }
+};
