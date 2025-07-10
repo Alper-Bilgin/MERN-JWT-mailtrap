@@ -1,0 +1,44 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# dotenv environment files
+.env
+.env.*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE/editor config
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Build output (if using TypeScript or transpiling)
+dist/
+build/
+
+# Coverage reports (if using testing)
+coverage/
+.nyc_output/
+
+# Optional npm cache
+.npm/
+
+# PM2 process logs
+pids/
+*.pid
+*.seed
+
+# Others
+*.tgz
