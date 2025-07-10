@@ -11,8 +11,8 @@ export const generateTokenAndSetCookie = (res, userId) => {
     expiresIn: "7d",
   });
   // Oluşturulan token, HTTP-only bir cookie olarak istemciye gönderiliyor.
-  // Cookie'nin adı 'token' olarak belirlenmiş.
-  // httpOnly: true -> Cookie'ye JavaScript tarafından erişilemez, sadece sunucu tarafından erişilebilir.
+  // Cookie'nin adı 'token' olarak belirledim.
+  // httpOnly: true -> Cookie'ye JavaScript vb. tarafından erişilemez, sadece sunucu tarafından erişilebilir.
   // secure: process.env.NODE_ENV !== "development" -> Geliştirme ortamı dışında (yani production'da) cookie sadece HTTPS üzerinden gönderilir.
   // sameSite: "strict" -> Cookie sadece aynı site üzerinden yapılan isteklere gönderilir, CSRF saldırılarına karşı koruma sağlar.
   // maxAge: 7 * 24 * 60 * 60 * 1000 -> Cookie'nin ömrü 7 gün (milisaniye cinsinden).
