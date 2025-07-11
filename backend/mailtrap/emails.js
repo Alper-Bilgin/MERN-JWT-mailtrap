@@ -1,5 +1,5 @@
 import { mailtrapClient, sender } from "./mailtrap.config.js";
-import { VERIFICATION_EMAIL_TEMPLATE } from "./emailTemplates.js";
+import { PASSWORD_RESET_REQUEST_TEMPLATE, PASSWORD_RESET_SUCCESS_TEMPLATE, VERIFICATION_EMAIL_TEMPLATE } from "./emailTemplates.js";
 
 export const sendVerificationEmail = async (email, verificationToken) => {
   // Alıcıyı (recipient) bir nesne olarak tanımlarız. Mailtrap API'si bu formatı bekler.
@@ -47,5 +47,40 @@ export const sendWelcomeEmail = async (email, name) => {
     console.error(`Hoş geldiniz e-postası gönderilirken hata oluştu`, error);
 
     throw new Error(`Hoş geldiniz e-postası gönderilirken hata oluştu: ${error}`);
+  }
+};
+
+export const sendPasswordResetEmail = async (email, resetURL) => {
+  const recipient = [{ email }];
+  try {
+    const response = await mailtrapClient.send({
+      from: sender,
+      to: recipient,
+      subject: "Şifrenizi sıfırlayın",
+      html: PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}", resetURL),
+      category: "Password Reset",
+    });
+  } catch (error) {
+    console.error(`Şifre sıfırlama e-postası gönderilirken hata oluştu`, error);
+    throw new Error(`Şifre sıfırlama e-postası gönderilirken hata oluştu: ${error}`);
+  }
+};
+
+export const sendResetSuccessEmail = async (email) => {
+  const recipient = [{ email }];
+
+  try {
+    const response = await mailtrapClient.send({
+      from: sender,
+      to: recipient,
+      subject: "Şifre Sıfırlama Başarılı",
+      html: PASSWORD_RESET_SUCCESS_TEMPLATE,
+      category: "Password Reset Success",
+    });
+
+    console.log("Şifre sıfırlama e-postası başarıyla gönderildi", response);
+  } catch (error) {
+    console.error(`Şifre sıfırlama başarılı e-postası gönderilirken hata oluştu:`, error);
+    throw new Error(`Şifre sıfırlama başarılı e-postası gönderilirken hata oluştu: ${error}`);
   }
 };
