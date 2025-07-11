@@ -185,3 +185,20 @@ export const resetPassword = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
+export const checkAuth = async (req, res) => {
+  try {
+    // Kullanıcı ID'sini, doğrulama işleminde token'dan almıştık ve şu anda 'req.userId' içinde mevcut
+    // User modelinden kullanıcıyı bulmaya çalışıyoruz, password alanını sorgulardan hariç tutmak için select("-password") kullanıyoruz
+    const user = await User.findById(req.userId).select("-password");
+
+    if (!user) {
+      return res.status(400).json({ success: false, message: "Kullanıcı bulunamadı" });
+    }
+
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    console.log("checkAuth'ta hata ", error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
