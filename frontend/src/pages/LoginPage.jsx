@@ -3,34 +3,20 @@ import { motion } from "framer-motion";
 import { Mail, Lock, Loader } from "lucide-react";
 import { Link } from "react-router-dom";
 import Input from "../components/Input";
+import { useAuthStore } from "../store/authStore";
 
 const LoginPage = () => {
   // Kullanıcının girdiği e-posta ve şifre bilgilerini tutmak için state'ler tanımlanıyor
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Opsiyonel: Hata ve yüklenme durumu yönetimi için state
-  const [error, setError] = useState(null); // Hataları göstermek için
-  const [isLoading, setIsLoading] = useState(false); // Buton yüklenme animasyonu için
+  const { login, isLoading, error } = useAuthStore(); // Auth store'dan login fonksiyonu alınıyor
 
   // Giriş formunun submit edildiğinde çalışacak fonksiyon
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    try {
-      setIsLoading(true); // Yükleme durumunu başlat
-      setError(null); // Önceki hataları temizle
-
-      // login fonksiyonu ile kullanıcı giriş işlemi yapılır
-      await login(email, password);
-    } catch (err) {
-      // Hata alınırsa hata mesajı gösterilir
-      setError("Giriş başarısız. Lütfen bilgilerinizi kontrol edin.");
-    } finally {
-      setIsLoading(false);
-    }
+    await login(email, password);
   };
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }} // İlk başta görünmez ve hafif aşağıda başlar
