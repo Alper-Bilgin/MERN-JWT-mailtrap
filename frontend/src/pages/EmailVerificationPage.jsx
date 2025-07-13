@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
+import { useAuthStore } from "../store/authStore";
 
 const EmailVerificationPage = () => {
   // 6 haneli kodu tutmak için state
@@ -10,9 +11,7 @@ const EmailVerificationPage = () => {
   // Inputlara doğrudan erişmek için referans dizisi
   const inputRefs = useRef([]);
   const navigate = useNavigate();
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-
+  const { error, isLoading, verifyEmail } = useAuthStore();
   // Her inputa yazıldığında çalışacak fonksiyon
   const handleChange = (index, value) => {
     const newCode = [...code];
@@ -57,9 +56,6 @@ const EmailVerificationPage = () => {
     const verificationCode = code.join(""); // Kod birleşip string hale getirilir
 
     try {
-      setIsLoading(true); // Buton devre dışı bırakılır
-      setError(null); // Hatalar temizlenir
-
       // E-posta doğrulama isteği gönderilir (verifyEmail fonksiyonu dışarıdan gelmeli)
       await verifyEmail(verificationCode);
 
@@ -71,9 +67,6 @@ const EmailVerificationPage = () => {
     } catch (error) {
       // Hata alındığında konsola yazılır ve kullanıcıya mesaj gösterilir
       console.log(error);
-      setError("Kod doğrulanamadı. Lütfen tekrar deneyin.");
-    } finally {
-      setIsLoading(false); // Yükleme durumu kapatılır
     }
   };
 

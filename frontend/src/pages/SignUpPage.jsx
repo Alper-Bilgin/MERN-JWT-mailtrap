@@ -4,6 +4,7 @@ import { Loader, Lock, Mail, User } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PasswordStrengthMeter from "../components/PasswordStrengthMeter";
+import { useAuthStore } from "../store/authStore";
 
 const SignUpPage = () => {
   const [name, setName] = useState(""); // Ad soyad alanı
@@ -13,27 +14,18 @@ const SignUpPage = () => {
   // Sayfa yönlendirme fonksiyonu
   const navigate = useNavigate();
 
-  // (Varsayılan olmayan ama eksik olan) hata ve yüklenme durumu tanımı yapılmalı:
-  const [error, setError] = useState(null); // Hata mesajı
-  const [isLoading, setIsLoading] = useState(false); // Yüklenme durumu
+  const { signup, error, isLoading } = useAuthStore();
 
   // Kayıt olma işlemini yöneten fonksiyon
   const handleSignUp = async (e) => {
     e.preventDefault(); // Formun sayfayı yenilemesini engelle
 
     try {
-      setIsLoading(true); // Yükleme başlat
-      setError(null); // Önceki hataları temizle
-
       await signup(email, password, name);
-
       // Başarılı olursa kullanıcıyı e-posta doğrulama sayfasına yönlendir
       navigate("/verify-email");
     } catch (error) {
       console.log(error);
-      setError("Kayıt başarısız oldu.");
-    } finally {
-      setIsLoading(false);
     }
   };
 
