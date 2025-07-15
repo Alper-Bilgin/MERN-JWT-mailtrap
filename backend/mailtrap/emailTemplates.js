@@ -20,7 +20,7 @@ export const VERIFICATION_EMAIL_TEMPLATE = `
     <p>Kayıt işleminizi tamamlamak için bu kodu doğrulama sayfasına giriniz.</p>
     <p>Güvenlik nedeniyle bu kod 15 dakika sonra geçersiz olacaktır.</p>
     <p>Eğer bu hesabı siz oluşturmadıysanız, lütfen bu e-postayı dikkate almayınız.</p>
-    <p>Saygılarımızla,<br>Uygulama Ekibiniz</p>
+    <p>Saygılarımızla,<br>Alper Bilgin</p>
   </div>
   <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
     <p>Bu otomatik bir mesajdır, lütfen yanıtlamayınız.</p>
@@ -58,7 +58,7 @@ export const PASSWORD_RESET_SUCCESS_TEMPLATE = `
       <li>Aynı şifreyi birden fazla sitede kullanmaktan kaçının</li>
     </ul>
     <p>Hesabınızı güvende tuttuğunuz için teşekkür ederiz.</p>
-    <p>Saygılarımızla,<br>Uygulama Ekibiniz</p>
+    <p>Saygılarımızla,<br>Alper Bilgin</p>
   </div>
   <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
     <p>Bu otomatik bir mesajdır, lütfen yanıtlamayınız.</p>
@@ -88,7 +88,7 @@ export const PASSWORD_RESET_REQUEST_TEMPLATE = `
       <a href="{resetURL}" style="background-color: #4CAF50; color: white; padding: 12px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Şifreyi Sıfırla</a>
     </div>
     <p>Güvenlik nedeniyle bu bağlantı 1 saat sonra geçersiz olacaktır.</p>
-    <p>Saygılarımızla,<br>Uygulama Ekibiniz</p>
+    <p>Saygılarımızla,<br>Alper Bilgin</p>
   </div>
   <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
     <p>Bu otomatik bir mesajdır, lütfen yanıtlamayınız.</p>

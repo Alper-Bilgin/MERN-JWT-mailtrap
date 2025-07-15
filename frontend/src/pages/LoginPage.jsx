@@ -56,7 +56,7 @@ const LoginPage = () => {
             disabled={isLoading} // Yükleme sırasında buton pasif hale getirilir
           >
             {/* Yükleniyorsa dönen ikon, değilse yazı */}
-            {isLoading ? <Loader className="w-6 h-6 animate-spin mx-auto" /> : "Login"}
+            {isLoading ? <Loader className="w-6 h-6 animate-spin mx-auto" /> : "Giriş Yap"}
           </motion.button>
         </form>
       </div>
